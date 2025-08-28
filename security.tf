@@ -32,7 +32,7 @@ module "lb_egress" {
 module "lb_http_ingress_cidrs" {
   count = var.create_lb_sg && local.create_cidr_access_rule ? 1 : 0
 
-  source = "github.com/pbs/terraform-aws-sg-rule-module?ref=0.0.23"
+  source = "github.com/pbs/terraform-aws-sg-rule-module?ref=0.0.24"
 
   security_group_id = aws_security_group.lb_sg[0].id
 
