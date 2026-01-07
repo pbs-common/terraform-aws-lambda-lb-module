@@ -74,7 +74,7 @@ module "lb_https_ingress_cidrs" {
 module "lb_https_ingress_sgs" {
   count = var.create_lb_sg && local.create_sg_access_rule ? 1 : 0
 
-  source = "github.com/pbs/terraform-aws-sg-rule-module?ref=0.0.21"
+  source = "github.com/pbs/terraform-aws-sg-rule-module?ref=1.0.0"
 
   security_group_id = aws_security_group.lb_sg[0].id
 
@@ -86,7 +86,7 @@ module "lb_https_ingress_sgs" {
 }
 
 module "lambda_permission" {
-  source = "github.com/pbs/terraform-aws-lambda-permission-module?ref=0.0.14"
+  source = "github.com/pbs/terraform-aws-lambda-permission-module?ref=0.0.18"
 
   statement_id  = "AllowExecutionFromLB"
   action        = "lambda:InvokeFunction"
