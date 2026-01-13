@@ -86,7 +86,7 @@ module "lb_https_ingress_sgs" {
 }
 
 module "lambda_permission" {
-  source = "github.com/pbs/terraform-aws-lambda-permission-module?ref=0.0.18"
+  source = "github.com/pbs/terraform-aws-lambda-permission-module?ref=1.0.0"
 
   statement_id  = "AllowExecutionFromLB"
   action        = "lambda:InvokeFunction"
