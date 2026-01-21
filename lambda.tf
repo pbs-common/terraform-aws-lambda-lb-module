@@ -48,7 +48,7 @@ module "lambda" {
 }
 
 data "aws_lambda_alias" "lb_target" {
-  count         = var.alias == null ? 0 : 1
+  count         = var.lambda_alias_name == null ? 0 : 1
   function_name = local.lambda_name
-  name          = var.alias
+  name          = var.lambda_alias_name
 }

@@ -94,7 +94,7 @@ variable "acm_arn" {
   type        = string
 }
 
-variable "alias" {
+variable "lambda_alias_name" {
   description = "The lambda alias to point the load balancer at. If not provided, will default to $LATEST."
   default     = null
   type        = string
