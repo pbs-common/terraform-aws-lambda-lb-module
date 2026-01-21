@@ -97,3 +97,16 @@ module "lambda_permission" {
   principal     = "elasticloadbalancing.amazonaws.com"
   source_arn    = aws_lb_target_group.target_group.arn
 }
+
+// If the load balancer is pointing at a particular alias, we also need to
+// explicitly provide permissions for the load balancer to invoke the alias
+resource "aws_lambda_permission" "lb_alias_invocation" {
+  count = var.lambda_alias_name == null ? 0 : 1
+
+  statement_id  = "AllowExecutionFromLB"
+  action        = "lambda:InvokeFunction"
+  function_name = module.lambda.name
+  principal     = "elasticloadbalancing.amazonaws.com"
+  source_arn    = aws_lb_target_group.target_group.arn
+  qualifier     = var.lambda_alias_name
+}
