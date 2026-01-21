@@ -46,3 +46,9 @@ module "lambda" {
   repo         = var.repo
   organization = var.organization
 }
+
+data "aws_lambda_alias" "lb_target" {
+  count         = var.alias == null ? 0 : 1
+  function_name = local.lambda_name
+  name          = var.alias
+}

@@ -82,7 +82,7 @@ resource "aws_lb_target_group" "target_group" {
 
 resource "aws_lb_target_group_attachment" "target_group_attachment" {
   target_group_arn = aws_lb_target_group.target_group.arn
-  target_id        = module.lambda.arn
+  target_id        = var.alias == null ? module.lambda.arn : data.aws_lambda_alias.lb_target[0].arn
   depends_on       = [module.lambda_permission]
 }
 
