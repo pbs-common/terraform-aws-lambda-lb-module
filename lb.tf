@@ -93,13 +93,15 @@ resource "aws_lb_target_group_attachment" "target_group_attachment" {
  * Target group that points to the aliased version of the lambda
  */
 resource "aws_lb_target_group" "aliased_target_group" {
+  count       = local.aliased_rule_count
   name        = "${local.target_group_name}-alias"
   target_type = "lambda"
   tags        = merge(local.tags, { "Name" = "${local.target_group_name} target group" })
 }
 
 resource "aws_lb_target_group_attachment" "aliased_target_group_attachement" {
-  target_group_arn = aws_lb_target_group.aliased_target_group
+  count            = local.aliased_rule_count
+  target_group_arn = aws_lb_target_group.aliased_target_group[0].arn
   target_id        = data.aws_lambda_alias.lb_target[0].arn
   depends_on       = [aws_lambda_permission.lb_alias_invocation, module.lambda]
 }
@@ -151,7 +153,7 @@ resource "aws_lb_listener_rule" "aliased_http_forward_rule" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.aliased_target_group.arn
+    target_group_arn = aws_lb_target_group.aliased_target_group[0].arn
   }
 
   condition {
@@ -168,7 +170,7 @@ resource "aws_lb_listener_rule" "aliased_https_forward_rule" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.aliased_target_group.arn
+    target_group_arn = aws_lb_target_group.aliased_target_group[0].arn
   }
 
   condition {
