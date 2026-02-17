@@ -80,16 +80,33 @@ resource "aws_lb_target_group" "target_group" {
   tags = merge(local.tags, { "Name" = "${local.target_group_name} target group" })
 }
 
-// A target group attachement that points to the lambda
-// If an alias is provided, we'll point to that instead
 resource "aws_lb_target_group_attachment" "target_group_attachment" {
   target_group_arn = aws_lb_target_group.target_group.arn
-  target_id        = var.lambda_alias_name == null ? module.lambda.arn : data.aws_lambda_alias.lb_target[0].arn
-  depends_on       = [module.lambda_permission, module.lambda, aws_lambda_permission.lb_alias_invocation, data.aws_lambda_alias.lb_target]
+  target_id        = module.lambda.arn
+  depends_on       = [module.lambda_permission, module.lambda]
 
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_lb_target_group" "alias_target_group" {
+  count       = var.lambda_alias_name == null ? 0 : 1
+  name        = "${local.target_group_name}-alias"
+  target_type = "lambda"
+
+  tags = merge(local.tags, { "Name" = "${local.target_group_name}-alias target group" })
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_lb_target_group_attachment" "alias_target_group_attachment" {
+  count            = var.lambda_alias_name == null ? 0 : 1
+  target_group_arn = aws_lb_target_group.alias_target_group[0].arn
+  target_id        = data.aws_lambda_alias.lb_target[0].arn
+  depends_on       = [aws_lambda_permission.lb_alias_invocation, module.lambda, data.aws_lambda_alias.lb_target]
 }
 
 ## Forwarding Rules
@@ -101,13 +118,17 @@ resource "aws_lb_listener_rule" "http_forward_rule" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = var.lambda_alias_name == null ? aws_lb_target_group.target_group.arn : aws_lb_target_group.alias_target_group[0].arn
   }
 
   condition {
     host_header {
       values = [element(local.aliases, count.index)]
     }
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -118,12 +139,16 @@ resource "aws_lb_listener_rule" "https_forward_rule" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = var.lambda_alias_name == null ? aws_lb_target_group.target_group.arn : aws_lb_target_group.alias_target_group[0].arn
   }
 
   condition {
     host_header {
       values = [element(local.aliases, count.index)]
     }
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
