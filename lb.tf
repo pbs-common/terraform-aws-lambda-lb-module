@@ -80,26 +80,12 @@ resource "aws_lb_target_group" "target_group" {
   tags = merge(local.tags, { "Name" = "${local.target_group_name} target group" })
 }
 
-// A target group attachement that points to the latest version of the lambda
-// We only add this attachment if no lambda alias has been provided
+// A target group attachement that points to the lambda
+// If an alias is provided, we'll point to that instead
 resource "aws_lb_target_group_attachment" "target_group_attachment" {
-  count            = var.lambda_alias_name == null ? 1 : 0
   target_group_arn = aws_lb_target_group.target_group.arn
-  target_id        = module.lambda.arn
-  depends_on       = [module.lambda_permission, module.lambda]
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-// A target group attachment that points to the provided lambda alias.
-// The resource is only created if an alias is provided.
-resource "aws_lb_target_group_attachment" "alias_target_group_attachment" {
-  count            = var.lambda_alias_name == null ? 0 : 1
-  target_group_arn = aws_lb_target_group.target_group.arn
-  target_id        = data.aws_lambda_alias.lb_target[0].arn
-  depends_on       = [aws_lambda_permission.lb_alias_invocation, module.lambda, data.aws_lambda_alias.lb_target]
+  target_id        = var.lambda_alias_name == null ? module.lambda.arn : data.aws_lambda_alias.lb_target[0].arn
+  depends_on       = [module.lambda_permission, module.lambda, aws_lambda_permission.lb_alias_invocation, data.aws_lambda_alias.lb_target]
 
   lifecycle {
     create_before_destroy = true
