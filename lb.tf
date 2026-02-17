@@ -86,7 +86,7 @@ resource "aws_lb_target_group_attachment" "target_group_attachment" {
   count            = var.lambda_alias_name == null ? 1 : 0
   target_group_arn = aws_lb_target_group.target_group.arn
   target_id        = module.lambda.arn
-  depends_on       = [module.lambda_permission]
+  depends_on       = [module.lambda_permission, module.lambda]
 }
 
 // A target group attachment that points to the provided lambda alias.
@@ -95,7 +95,7 @@ resource "aws_lb_target_group_attachment" "alias_target_group_attachment" {
   count            = var.lambda_alias_name == null ? 0 : 1
   target_group_arn = aws_lb_target_group.target_group.arn
   target_id        = data.aws_lambda_alias.lb_target[0].arn
-  depends_on       = [aws_lambda_permission.lb_alias_invocation]
+  depends_on       = [aws_lambda_permission.lb_alias_invocation, module.lambda, data.aws_lambda_alias.lb_target]
 }
 
 ## Forwarding Rules
