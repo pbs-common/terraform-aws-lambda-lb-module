@@ -73,7 +73,6 @@ resource "aws_lb_listener" "https" {
   ]
 }
 
-
 /*
  * Target group that points to the $LATEST version of the lambda
  */
@@ -110,7 +109,7 @@ resource "aws_lb_target_group_attachment" "aliased_target_group_attachement" {
  * Listener rules for non-aliased lambda
  */
 resource "aws_lb_listener_rule" "http_forward_rule" {
-  count        = local.non_aliased_rule_count
+  count        = local.non_aliased_rule_count * local.http_forward_rule_count
   listener_arn = aws_lb_listener.http[0].arn
   priority     = local.route_priority + count.index
 
@@ -127,7 +126,7 @@ resource "aws_lb_listener_rule" "http_forward_rule" {
 }
 
 resource "aws_lb_listener_rule" "https_forward_rule" {
-  count        = local.non_aliased_rule_count
+  count        = local.non_aliased_rule_count * local.https_forward_rule_count
   listener_arn = aws_lb_listener.https[0].arn
   priority     = local.route_priority + count.index
 
@@ -147,7 +146,7 @@ resource "aws_lb_listener_rule" "https_forward_rule" {
  * Listener rules for aliased lambda
  */
 resource "aws_lb_listener_rule" "aliased_http_forward_rule" {
-  count        = local.aliased_rule_count
+  count        = local.aliased_rule_count * local.http_forward_rule_count
   listener_arn = aws_lb_listener.http[0].arn
   priority     = (local.route_priority * 2) + count.index
 
@@ -164,7 +163,7 @@ resource "aws_lb_listener_rule" "aliased_http_forward_rule" {
 }
 
 resource "aws_lb_listener_rule" "aliased_https_forward_rule" {
-  count        = local.aliased_rule_count
+  count        = local.aliased_rule_count * local.https_forward_rule_count
   listener_arn = aws_lb_listener.https[0].arn
   priority     = (local.route_priority * 2) + count.index
 

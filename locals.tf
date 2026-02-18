@@ -46,12 +46,13 @@ locals {
   http_forward_rule_count   = local.only_create_http_listener ? length(local.aliases) : 0
   https_forward_rule_count  = var.create_https_listeners ? length(local.aliases) : 0
 
-  // The number of HTTP listener rules we should create that point to the
+  // Whether or not we should create listener rules that point to the
   // $LATEST version of the lambda. If an alias name is provided and we DON'T
   // want to retain non-aliased listeners, we won't create listeners.
-  // Otherwise, we do
-  non_aliased_rule_count = (var.lambda_alias_name != null && !var.retain_non_aliased_listener_rules) ? 0 : local.http_forward_rule_count
-  aliased_rule_count     = var.lambda_alias_name != null ? local.http_forward_rule_count : 0
+  // This is created an an integer so we can multiply it with
+  // http_forward_rule_count later.
+  non_aliased_rule_count = (var.lambda_alias_name != null && !var.retain_non_aliased_listener_rules) ? 0 : 1
+  aliased_rule_count     = var.lambda_alias_name != null ? 1 : 0
 
   creator = "terraform"
 
@@ -67,6 +68,14 @@ locals {
   )
 
   tags = merge({ for k, v in local.defaulted_tags : k => v if lookup(data.aws_default_tags.common_tags.tags, k, "") != v })
+}
+
+output "non_aliased_rule_count" {
+  value = local.non_aliased_rule_count
+}
+
+output "aliased_rule_count" {
+  value = local.aliased_rule_count
 }
 
 data "aws_default_tags" "common_tags" {}
