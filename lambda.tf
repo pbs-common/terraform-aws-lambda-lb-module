@@ -45,6 +45,7 @@ module "lambda" {
   product      = var.product
   repo         = var.repo
   organization = var.organization
+  owner        = var.owner
 }
 
 data "aws_lambda_alias" "lb_target" {
