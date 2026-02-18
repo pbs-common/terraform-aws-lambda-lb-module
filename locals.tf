@@ -64,6 +64,7 @@ locals {
       "${var.organization}:billing:environment" = var.environment
       creator                                   = local.creator
       repo                                      = var.repo
+      owner                                     = var.owner
     }
   )
 
