@@ -50,7 +50,7 @@ locals {
    * Whether or not we should create listener rules that point to the
    * $LATEST version of the lambda. If an alias name is provided and we DON'T
    * want to retain non-aliased listeners, we won't create listeners.
-   * This is created an an integer so we can multiply it with
+   * This is created as an integer so we can multiply it with
    * http_forward_rule_count later.
    */
   non_aliased_rule_count = (var.lambda_alias_name != null && !var.retain_non_aliased_listener_rules) ? 0 : 1
