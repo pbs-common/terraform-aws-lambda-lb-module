@@ -95,7 +95,7 @@ resource "aws_lb_target_group" "aliased_target_group" {
   count       = local.aliased_rule_count
   name        = "${local.target_group_name}-alias"
   target_type = "lambda"
-  tags        = merge(local.tags, { "Name" = "${local.target_group_name} target group" })
+  tags        = merge(local.tags, { "Name" = "${local.target_group_name}-alias target group" })
 }
 
 resource "aws_lb_target_group_attachment" "aliased_target_group_attachment" {
