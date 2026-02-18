@@ -70,12 +70,4 @@ locals {
   tags = merge({ for k, v in local.defaulted_tags : k => v if lookup(data.aws_default_tags.common_tags.tags, k, "") != v })
 }
 
-output "non_aliased_rule_count" {
-  value = local.non_aliased_rule_count
-}
-
-output "aliased_rule_count" {
-  value = local.aliased_rule_count
-}
-
 data "aws_default_tags" "common_tags" {}
