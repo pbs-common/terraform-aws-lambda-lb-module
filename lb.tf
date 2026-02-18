@@ -98,7 +98,7 @@ resource "aws_lb_target_group" "aliased_target_group" {
   tags        = merge(local.tags, { "Name" = "${local.target_group_name} target group" })
 }
 
-resource "aws_lb_target_group_attachment" "aliased_target_group_attachement" {
+resource "aws_lb_target_group_attachment" "aliased_target_group_attachment" {
   count            = local.aliased_rule_count
   target_group_arn = aws_lb_target_group.aliased_target_group[0].arn
   target_id        = data.aws_lambda_alias.lb_target[0].arn
