@@ -46,11 +46,13 @@ locals {
   http_forward_rule_count   = local.only_create_http_listener ? length(local.aliases) : 0
   https_forward_rule_count  = var.create_https_listeners ? length(local.aliases) : 0
 
-  // Whether or not we should create listener rules that point to the
-  // $LATEST version of the lambda. If an alias name is provided and we DON'T
-  // want to retain non-aliased listeners, we won't create listeners.
-  // This is created an an integer so we can multiply it with
-  // http_forward_rule_count later.
+  /*
+   * Whether or not we should create listener rules that point to the
+   * $LATEST version of the lambda. If an alias name is provided and we DON'T
+   * want to retain non-aliased listeners, we won't create listeners.
+   * This is created an an integer so we can multiply it with
+   * http_forward_rule_count later.
+   */
   non_aliased_rule_count = (var.lambda_alias_name != null && !var.retain_non_aliased_listener_rules) ? 0 : 1
   aliased_rule_count     = var.lambda_alias_name != null ? 1 : 0
 

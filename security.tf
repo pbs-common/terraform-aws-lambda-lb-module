@@ -98,8 +98,10 @@ module "lambda_permission" {
   source_arn    = aws_lb_target_group.target_group.arn
 }
 
-// If the load balancer is pointing at a particular alias, we also need to
-// explicitly provide permissions for the load balancer to invoke the alias
+/*
+ * If the load balancer is pointing at a particular alias, we also need to
+ * explicitly provide permissions for the load balancer to invoke the alias
+ */
 resource "aws_lambda_permission" "lb_alias_invocation" {
   count = var.lambda_alias_name == null ? 0 : 1
 
