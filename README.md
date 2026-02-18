@@ -181,11 +181,9 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Description |
 |------|-------------|
-| <a name="output_aliased_rule_count"></a> [aliased\_rule\_count](#output\_aliased\_rule\_count) | n/a |
 | <a name="output_domain_name"></a> [domain\_name](#output\_domain\_name) | One domain name that will resolve to this product. Might not be a valid alias. |
 | <a name="output_lambda_arn"></a> [lambda\_arn](#output\_lambda\_arn) | ARN of the Lambda function |
 | <a name="output_lambda_name"></a> [lambda\_name](#output\_lambda\_name) | Name of the Lambda function |
 | <a name="output_lambda_sg"></a> [lambda\_sg](#output\_lambda\_sg) | Security group of the lambda function |
 | <a name="output_lb_arn"></a> [lb\_arn](#output\_lb\_arn) | Load balancer ARN |
 | <a name="output_lb_sg"></a> [lb\_sg](#output\_lb\_sg) | Load balancer security group |
-| <a name="output_non_aliased_rule_count"></a> [non\_aliased\_rule\_count](#output\_non\_aliased\_rule\_count) | n/a |
