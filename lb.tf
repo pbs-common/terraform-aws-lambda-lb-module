@@ -102,7 +102,7 @@ resource "aws_lb_target_group_attachment" "aliased_target_group_attachement" {
   count            = local.aliased_rule_count
   target_group_arn = aws_lb_target_group.aliased_target_group[0].arn
   target_id        = data.aws_lambda_alias.lb_target[0].arn
-  depends_on       = [aws_lambda_permission.lb_alias_invocation, module.lambda]
+  depends_on       = [aws_lambda_permission.lb_alias_invocation[0], module.lambda]
 }
 
 /*
