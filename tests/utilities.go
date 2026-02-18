@@ -34,11 +34,11 @@ func getAWSRegion(t *testing.T) string {
 }
 
 func assertTfVar(t *testing.T, key string) string {
-	env_var := fmt.Sprintf("TF_VAR_%s", key)
-	value := os.Getenv(env_var)
+	envVar := fmt.Sprintf("TF_VAR_%s", key)
+	value := os.Getenv(envVar)
 
 	if value == "" {
-		t.Fatal(fmt.Sprintf("%s must be set to run tests", env_var))
+		t.Fatal(fmt.Sprintf("%s must be set to run tests", envVar))
 	}
 
 	return value
