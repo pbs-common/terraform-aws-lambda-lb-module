@@ -107,6 +107,6 @@ resource "aws_lambda_permission" "lb_alias_invocation" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda.name
   principal     = "elasticloadbalancing.amazonaws.com"
-  source_arn    = aws_lb_target_group.aliased_target_group.arn
+  source_arn    = aws_lb_target_group.aliased_target_group[0].arn
   qualifier     = var.lambda_alias_name
 }
