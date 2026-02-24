@@ -1,6 +1,8 @@
 package test
 
 import (
+	"fmt"
+	"os"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -29,4 +31,15 @@ func getAWSRegion(t *testing.T) string {
 		return ""
 	}
 	return *session.Config.Region
+}
+
+func assertTfVar(t *testing.T, key string) string {
+	envVar := fmt.Sprintf("TF_VAR_%s", key)
+	value := os.Getenv(envVar)
+
+	if value == "" {
+		t.Fatal(fmt.Sprintf("%s must be set to run tests", envVar))
+	}
+
+	return value
 }

@@ -46,6 +46,14 @@ locals {
   http_forward_rule_count   = local.only_create_http_listener ? length(local.aliases) : 0
   https_forward_rule_count  = var.create_https_listeners ? length(local.aliases) : 0
 
+  /*
+   * Whether or not we should create listener rules that point to the
+   * $LATEST version of the lambda. If an alias name is provided and we DON'T
+   * want to retain non-aliased listeners, we won't create listeners.
+   */
+  create_non_aliased_rule = var.lambda_alias_name == null || var.retain_non_aliased_listener_rules
+  create_aliased_rule     = var.lambda_alias_name != null
+
   creator = "terraform"
 
   defaulted_tags = merge(
@@ -56,6 +64,7 @@ locals {
       "${var.organization}:billing:environment" = var.environment
       creator                                   = local.creator
       repo                                      = var.repo
+      owner                                     = var.owner
     }
   )
 

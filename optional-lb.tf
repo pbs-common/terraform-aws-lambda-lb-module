@@ -93,3 +93,15 @@ variable "acm_arn" {
   default     = null
   type        = string
 }
+
+variable "lambda_alias_name" {
+  description = "The lambda alias to point the load balancer at. If not provided, will default to $LATEST."
+  default     = null
+  type        = string
+}
+
+variable "retain_non_aliased_listener_rules" {
+  description = "If true, load balancer listener rules for both the aliased and $LATEST lambda versions will be preserved. This is helpful if you'd like to test the swapover to the aliased version of the lambda"
+  default     = true
+  type        = bool
+}

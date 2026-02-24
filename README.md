@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-lambda-lb-module?ref=0.0.50
+github.com/pbs/terraform-aws-lambda-lb-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "lambda_lb" {
-  source = "github.com/pbs/terraform-aws-lambda-lb-module?ref=0.0.50"
+  source = "github.com/pbs/terraform-aws-lambda-lb-module?ref=x.y.z"
 
   handler  = "main.lambda_handler"
   filename = "./artifacts/deploy.zip"
@@ -44,7 +44,7 @@ module "lambda_lb" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`0.0.50`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -67,7 +67,7 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.27.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.33.0 |
 
 ## Modules
 
@@ -77,26 +77,32 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="module_lambda_permission"></a> [lambda\_permission](#module\_lambda\_permission) | github.com/pbs/terraform-aws-lambda-permission-module | 0.0.18 |
 | <a name="module_lb_egress"></a> [lb\_egress](#module\_lb\_egress) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
 | <a name="module_lb_http_ingress_cidrs"></a> [lb\_http\_ingress\_cidrs](#module\_lb\_http\_ingress\_cidrs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
-| <a name="module_lb_http_ingress_sgs"></a> [lb\_http\_ingress\_sgs](#module\_lb\_http\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 0.0.23 |
-| <a name="module_lb_https_ingress_cidrs"></a> [lb\_https\_ingress\_cidrs](#module\_lb\_https\_ingress\_cidrs) | github.com/pbs/terraform-aws-sg-rule-module | 0.0.23 |
+| <a name="module_lb_http_ingress_sgs"></a> [lb\_http\_ingress\_sgs](#module\_lb\_http\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
+| <a name="module_lb_https_ingress_cidrs"></a> [lb\_https\_ingress\_cidrs](#module\_lb\_https\_ingress\_cidrs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
 | <a name="module_lb_https_ingress_sgs"></a> [lb\_https\_ingress\_sgs](#module\_lb\_https\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [aws_lambda_permission.lb_alias_invocation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lb.lb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
 | [aws_lb_listener.http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_listener.http_redirect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_listener.https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
+| [aws_lb_listener_rule.aliased_http_forward_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) | resource |
+| [aws_lb_listener_rule.aliased_https_forward_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) | resource |
 | [aws_lb_listener_rule.http_forward_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) | resource |
 | [aws_lb_listener_rule.https_forward_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) | resource |
+| [aws_lb_target_group.aliased_target_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
 | [aws_lb_target_group.target_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) | resource |
+| [aws_lb_target_group_attachment.aliased_target_group_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment) | resource |
 | [aws_lb_target_group_attachment.target_group_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment) | resource |
 | [aws_route53_record.record](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_security_group.lb_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_acm_certificate.primary_acm_wildcard_cert](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/acm_certificate) | data source |
 | [aws_default_tags.common_tags](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/default_tags) | data source |
+| [aws_lambda_alias.lb_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lambda_alias) | data source |
 | [aws_route53_zone.hosted_zone](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 | [aws_subnets.private_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
 | [aws_subnets.public_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
@@ -108,6 +114,7 @@ Below is automatically generated documentation on this Terraform module using [t
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment (sharedtools, dev, staging, qa, prod) | `string` | n/a | yes |
 | <a name="input_organization"></a> [organization](#input\_organization) | Organization using this module. Used to prefix tags so that they are easily identified as being from your organization | `string` | n/a | yes |
+| <a name="input_owner"></a> [owner](#input\_owner) | Tag used to group resources according to owner | `string` | n/a | yes |
 | <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
 | <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | ARN of the ACM certificate to use for the load balancer. If null, one will be guessed based on the primary hosted zone of the service. | `string` | `null` | no |
@@ -134,6 +141,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_idle_timeout"></a> [idle\_timeout](#input\_idle\_timeout) | Idle timeout for the load balancer. The time in seconds that the connection is allowed to be idle. | `number` | `60` | no |
 | <a name="input_image_uri"></a> [image\_uri](#input\_image\_uri) | URI of the container image to use for the Lambda | `string` | `null` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Use an internal load balancer. | `bool` | `false` | no |
+| <a name="input_lambda_alias_name"></a> [lambda\_alias\_name](#input\_lambda\_alias\_name) | The lambda alias to point the load balancer at. If not provided, will default to $LATEST. | `string` | `null` | no |
 | <a name="input_lambda_description"></a> [lambda\_description](#input\_lambda\_description) | Description for this lambda function | `string` | `null` | no |
 | <a name="input_lambda_insights_extension_account_number"></a> [lambda\_insights\_extension\_account\_number](#input\_lambda\_insights\_extension\_account\_number) | Account number for the LambdaInsightsExtension layer | `string` | `"580247275435"` | no |
 | <a name="input_lambda_insights_extension_version"></a> [lambda\_insights\_extension\_version](#input\_lambda\_insights\_extension\_version) | Lambda layer version for the LambdaInsightsExtension layer | `number` | `null` | no |
@@ -155,6 +163,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_publish"></a> [publish](#input\_publish) | Whether to publish creation/change as new Lambda Function Version | `bool` | `true` | no |
 | <a name="input_restricted_cidr_blocks"></a> [restricted\_cidr\_blocks](#input\_restricted\_cidr\_blocks) | CIDR blocks to receive restricted product access. If empty, no CIDRs will be allowed to connect. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_restricted_sg"></a> [restricted\_sg](#input\_restricted\_sg) | SG to receive restricted product access. If null, no sg will be configured to connect | `string` | `null` | no |
+| <a name="input_retain_non_aliased_listener_rules"></a> [retain\_non\_aliased\_listener\_rules](#input\_retain\_non\_aliased\_listener\_rules) | If true, load balancer listener rules for both the aliased and $LATEST lambda versions will be preserved. This is helpful if you'd like to test the swapover to the aliased version of the lambda | `bool` | `true` | no |
 | <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | ARN of the role to be used for this Lambda | `string` | `null` | no |
 | <a name="input_runtime"></a> [runtime](#input\_runtime) | Runtime for the lambda function | `string` | `null` | no |
 | <a name="input_security_group_id"></a> [security\_group\_id](#input\_security\_group\_id) | Security group ID. If null, one will be created. | `string` | `null` | no |

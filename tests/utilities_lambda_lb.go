@@ -2,7 +2,6 @@ package test
 
 import (
 	"fmt"
-	"os"
 	"testing"
 	"time"
 
@@ -15,11 +14,9 @@ import (
 func testLambdaLB(t *testing.T, variant string) {
 	t.Parallel()
 
-	primaryHostedZone := os.Getenv("TF_VAR_primary_hosted_zone")
-
-	if primaryHostedZone == "" {
-		t.Fatal("TF_VAR_primary_hosted_zone must be set to run tests. e.g. 'export TF_VAR_primary_hosted_zone=example.org'")
-	}
+	// Make sure we've set some required variables
+	primaryHostedZone := assertTfVar(t, "primary_hosted_zone")
+	assertTfVar(t, "owner")
 
 	terraformDir := fmt.Sprintf("../examples/%s", variant)
 
