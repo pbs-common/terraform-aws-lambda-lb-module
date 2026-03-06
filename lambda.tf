@@ -41,6 +41,7 @@ module "lambda" {
   allow_app_config_access                         = var.allow_app_config_access
 
   # Tags
+  owner        = var.owner
   environment  = var.environment
   product      = var.product
   repo         = var.repo
