@@ -8,6 +8,11 @@ data "aws_vpc" "vpc" {
   count = var.vpc_id == null ? 1 : 0
 
   tags = local.vpc_data_lookup_tags
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
+  }
 }
 
 data "aws_acm_certificate" "primary_acm_wildcard_cert" {
