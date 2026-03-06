@@ -3,7 +3,7 @@ module github.com/pbs/terraform-aws-lambda-lb-module
 go 1.24.0
 
 require (
-	github.com/aws/aws-sdk-go v1.44.251
+	github.com/aws/aws-sdk-go v1.55.8
 	github.com/gruntwork-io/terratest v0.41.19
 	github.com/stretchr/testify v1.11.1
 )
