@@ -98,7 +98,7 @@ module "lb_https_ingress_cidrs" {
 module "lb_https_ingress_sgs" {
   count = var.create_lb_sg && local.create_sg_access_rule ? 1 : 0
 
-  source                   = "github.com/pbs/terraform-aws-sg-rule-module?ref=1.0.0"
+  source                   = "github.com/pbs/terraform-aws-sg-rule-module?ref=1.0.1"
   security_group_id        = aws_security_group.lb_sg[0].id
   description              = "Allow HTTPS traffic to the lb for specific SGs"
   port                     = var.https_port
