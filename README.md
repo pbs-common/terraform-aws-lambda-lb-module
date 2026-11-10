@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-lambda-lb-module?ref=1.0.5
+github.com/pbs/terraform-aws-lambda-lb-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -22,7 +22,7 @@ Integrate this module like so:
 
 ```hcl
 module "lambda_lb" {
-  source = "github.com/pbs/terraform-aws-lambda-lb-module?ref=1.0.5"
+  source = "github.com/pbs/terraform-aws-lambda-lb-module?ref=x.y.z"
 
   handler  = "main.lambda_handler"
   filename = "./artifacts/deploy.zip"
@@ -44,7 +44,7 @@ module "lambda_lb" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.0.5`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -67,19 +67,19 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.53.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.71.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_lambda"></a> [lambda](#module\_lambda) | github.com/pbs/terraform-aws-lambda-module | 2.0.0 |
+| <a name="module_lambda"></a> [lambda](#module\_lambda) | github.com/pbs/terraform-aws-lambda-module | 3.0.0 |
 | <a name="module_lambda_permission"></a> [lambda\_permission](#module\_lambda\_permission) | github.com/pbs/terraform-aws-lambda-permission-module | 1.0.1 |
-| <a name="module_lb_egress"></a> [lb\_egress](#module\_lb\_egress) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.2 |
-| <a name="module_lb_http_ingress_cidrs"></a> [lb\_http\_ingress\_cidrs](#module\_lb\_http\_ingress\_cidrs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.2 |
-| <a name="module_lb_http_ingress_sgs"></a> [lb\_http\_ingress\_sgs](#module\_lb\_http\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.2 |
+| <a name="module_lb_egress"></a> [lb\_egress](#module\_lb\_egress) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.4 |
+| <a name="module_lb_http_ingress_cidrs"></a> [lb\_http\_ingress\_cidrs](#module\_lb\_http\_ingress\_cidrs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.4 |
+| <a name="module_lb_http_ingress_sgs"></a> [lb\_http\_ingress\_sgs](#module\_lb\_http\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.4 |
 | <a name="module_lb_https_ingress_cidrs"></a> [lb\_https\_ingress\_cidrs](#module\_lb\_https\_ingress\_cidrs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
-| <a name="module_lb_https_ingress_sgs"></a> [lb\_https\_ingress\_sgs](#module\_lb\_https\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.0 |
+| <a name="module_lb_https_ingress_sgs"></a> [lb\_https\_ingress\_sgs](#module\_lb\_https\_ingress\_sgs) | github.com/pbs/terraform-aws-sg-rule-module | 1.0.4 |
 
 ## Resources
 
@@ -124,8 +124,6 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_alb_ssl_policy"></a> [alb\_ssl\_policy](#input\_alb\_ssl\_policy) | SSL policy to use for an Application Load Balancer application. | `string` | `"ELBSecurityPolicy-2016-08"` | no |
 | <a name="input_aliases"></a> [aliases](#input\_aliases) | CNAME(s) that are allowed to be used for this product in the rules on the load balancer. Any name that does not match one of these will get a 403 response from the load balancer. Default is `product`.`hosted_zone`. e.g. [product.example.com] --> [product.example.com] | `list(string)` | `null` | no |
 | <a name="input_allow_app_config_access"></a> [allow\_app\_config\_access](#input\_allow\_app\_config\_access) | Allow AppConfig access from the Lambda function. Ignored if `policy_json` or `role_arn` are set. | `bool` | `true` | no |
-| <a name="input_app_config_extension_account_number"></a> [app\_config\_extension\_account\_number](#input\_app\_config\_extension\_account\_number) | Account number for the AWS-AppConfig-Extension layer | `string` | `"027255383542"` | no |
-| <a name="input_app_config_extension_version"></a> [app\_config\_extension\_version](#input\_app\_config\_extension\_version) | Lambda layer version for the AWS-AppConfig-Extension layer | `number` | `null` | no |
 | <a name="input_architectures"></a> [architectures](#input\_architectures) | Architectures to target for the Lambda function | `list(string)` | <pre>[<br>  "x86_64"<br>]</pre> | no |
 | <a name="input_cnames"></a> [cnames](#input\_cnames) | CNAME(s) that are going to be created for this product in the hosted zone. This can be set to [] to avoid creating a CNAME for the product. Default is `product`. e.g. [product] --> [product.example.com] | `list(string)` | `null` | no |
 | <a name="input_create_http_listeners"></a> [create\_http\_listeners](#input\_create\_http\_listeners) | Create HTTP listeners for the load balancer. By default, these listeners will only be used to redirect to HTTPS. Set `create_https_listeners` to false to only create http listeners. This is not recommended. | `bool` | `true` | no |
@@ -154,8 +152,6 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | Amount of memory in MB your Lambda Function can use at runtime | `number` | `128` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Lambda LB. If null, will default to product. | `string` | `null` | no |
 | <a name="input_package_type"></a> [package\_type](#input\_package\_type) | Package type for the Lambda function. Valid values are Zip and Image. | `string` | `"Zip"` | no |
-| <a name="input_parameters_and_secrets_extension_account_number"></a> [parameters\_and\_secrets\_extension\_account\_number](#input\_parameters\_and\_secrets\_extension\_account\_number) | Account number for the AWS-Parameters-and-Secrets-Lambda-Extension layer | `string` | `"177933569100"` | no |
-| <a name="input_parameters_and_secrets_extension_version"></a> [parameters\_and\_secrets\_extension\_version](#input\_parameters\_and\_secrets\_extension\_version) | Lambda layer version for the AWS-Parameters-and-Secrets-Lambda-Extension layer | `number` | `null` | no |
 | <a name="input_permissions_boundary_arn"></a> [permissions\_boundary\_arn](#input\_permissions\_boundary\_arn) | ARN of the permissions boundary to use on the role created for this lambda | `string` | `null` | no |
 | <a name="input_policy_json"></a> [policy\_json](#input\_policy\_json) | Policy JSON. If null, default policy granting access to SSM and cloudwatch logs is used | `string` | `null` | no |
 | <a name="input_primary_hosted_zone"></a> [primary\_hosted\_zone](#input\_primary\_hosted\_zone) | Name of the primary hosted zone for DNS. e.g. primary\_hosted\_zone = example.org --> service.example.org. If null, it is assumed that a private hosted zone will be used. | `string` | `null` | no |
