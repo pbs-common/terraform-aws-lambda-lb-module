@@ -21,8 +21,7 @@ module "lb_egress" {
   description = "Allow all traffic out"
 
   type     = "egress"
-  port     = 0
-  protocol = "all"
+  protocol = "-1"
 
   source_cidr_blocks = [
     "0.0.0.0/0"
